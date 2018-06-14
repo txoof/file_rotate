@@ -54,7 +54,7 @@ echo "destination for backup files: ${destination}"
 
 
 # copy the files into the backup folder
-# add option to compress
+# add option to compress 
 mkdir $destination
 cp -r $source/* $destination
 
@@ -64,5 +64,5 @@ find $storage/backup.daily/ -maxdepth 1 -mtime +7 -type d -exec rm -rv {} \;
 # weekly - keep for 30 days
 find $storage/backup.weekly/ -maxdepth 1 -mtime +30 -type d -exec rm -rv {} \;
 
-# monthly - keep for 300 days
-find $storage/backup.monthly/ -maxdepth 1 -mtime +300 -type d -exec rm -rv {} \;
+# monthly - keep for 180 days
+find $storage/backup.monthly/ -maxdepth 1 -mtime +180 -type d -exec rm -rv {} \;
