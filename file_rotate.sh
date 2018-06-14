@@ -1,8 +1,11 @@
 #!/bin/bash
+# Adapted from 
 # Julius Zaromskis
+# https://nicaw.wordpress.com/2013/04/18/bash-backup-rotation-script/
 # Backup rotation
 
 # Storage folder where to move backup files
+# add check here for backup directories
 # Must contain backup.monthly backup.weekly backup.daily folders
 storage=./test/
 
@@ -17,6 +20,15 @@ date_daily=`date +"%d-%m-%Y"`
 # Get current month and week day number
 month_day=`date +"%d"`
 week_day=`date +"%u"`
+
+# check if storage folders exist and create if they do not 
+directories=("backup.daily" "backup.weekly" "backup.monthly")
+for i in "${directories[@]}"
+do :
+    if [ ! -d $storage$i ] ; then
+      mkdir $storage$i
+    fi
+done
 
 # Optional check if source files exist. Email if failed.
 #if [ ! -f $source/archive.tgz ]; then
@@ -41,9 +53,10 @@ fi
 echo "destination for backup files: ${destination}"
 
 
-# Move the files
+# copy the files into the backup folder
+# add option to compress
 mkdir $destination
-cp $source/* $destination
+cp -r $source/* $destination
 
 # daily - keep for 7 days
 find $storage/backup.daily/ -maxdepth 1 -mtime +7 -type d -exec rm -rv {} \;
