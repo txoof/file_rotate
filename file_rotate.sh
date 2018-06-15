@@ -8,9 +8,10 @@
 # add check here for backup directories
 # Must contain backup.monthly backup.weekly backup.daily folders
 storage=./test/
+#storage=/storage/emulated/0/phone_backup
 
 # Source folder where files are backed
-source=$storage/today
+source=$storage/backup.today
 
 # days to retain backups
 retentionDaily=8
@@ -26,6 +27,12 @@ date_daily=`date +"%Y-%m-%d"`
 month_day=`date +"%d"`
 week_day=`date +"%u"`
 
+
+# check if storage path exists
+if [[ ! -d $storage && -w $storage ]] ; then
+  mkdir $storage
+fi
+
 # check if source path exists
 if [[ ! -d $source && ! -r $source ]] ; then
   echo "source path does not exist or is not readable; exiting"
@@ -33,16 +40,13 @@ if [[ ! -d $source && ! -r $source ]] ; then
   exit 1
 fi
 
-# check if storage path exists
-if [[ ! -d $storage && -w $storage ]] ; then
-  mkdir $storage
-fi
-
 # check if storage folders exist and create if they do not 
 directories=("backup.daily" "backup.weekly" "backup.monthly")
 for i in "${directories[@]}"
 do :
+    echo "checking for $storage$i"
     if [ ! -d $storage$i ] ; then
+      echo "making $storage/$i"
       mkdir $storage$i
     fi
 done
