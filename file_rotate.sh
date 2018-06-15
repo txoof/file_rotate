@@ -8,7 +8,7 @@
 # add check here for backup directories
 # Must contain backup.monthly backup.weekly backup.daily folders
 storage=./test/
-#storage=/storage/emulated/0/phone_backup
+#storage=/storage/emulated/0/phone_backup/
 
 # Source folder where files are backed
 source=$storage/backup.today
@@ -34,12 +34,9 @@ if [[ ! -d $storage && -w $storage ]] ; then
 fi
 
 # check if source path exists
-if [ ! -d $source && ! ] ; then
-  mkdir $source
-fi
-
 if [ ! -r $source ] ; then
-  echo "$source is unreadable"
+  echo "source path ($source) is not readable"
+  exit 1
 fi
 
 # check if storage folders exist and create if they do not 
