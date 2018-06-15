@@ -67,7 +67,9 @@ echo "destination for backup files: ${destination}"
 
 # copy the files into the backup folder
 # add option to compress 
-mkdir $destination
+if [ ! -d $destination ] ; then
+  mkdir $destination
+fi
 cp -r $source/* $destination
 
 # daily - keep for 7 days
