@@ -12,6 +12,11 @@ storage=./test/
 # Source folder where files are backed
 source=$storage/today
 
+# days to retain backups
+retentionDaily=8
+retentionWeekly=32
+retentionMonthly=184
+
 # Destination file names
 date_daily=`date +"%Y-%m-%d"`
 #date_weekly=`date +"%V sav. %m-%Y"`
@@ -42,11 +47,6 @@ do :
     fi
 done
 
-# Optional check if source files exist. Email if failed.
-#if [ ! -f $source/archive.tgz ]; then
-#ls -l $source/ | mail your@email.com -s "[backup script] Daily backup failed! Please check for missing files."
-#fi
-
 # It is logical to run this script daily. We take files from source folder and move them to
 # appropriate destination folder
 
@@ -62,8 +62,6 @@ else
     destination=$storage/backup.daily/$date_daily
   fi
 fi
-echo "destination for backup files: ${destination}"
-
 
 # copy the files into the backup folder
 # add option to compress 
@@ -72,11 +70,11 @@ if [ ! -d $destination ] ; then
 fi
 cp -r $source/* $destination
 
-# daily - keep for 7 days
-find $storage/backup.daily/ -maxdepth 1 -mtime +7 -type d -exec rm -rv {} \;
+# daily - keep for retentionDaily
+find $storage/backup.daily/ -maxdepth 1 -mtime +$retentionDaily -type d -exec rm -rv {} \;
 
-# weekly - keep for 30 days
-find $storage/backup.weekly/ -maxdepth 1 -mtime +30 -type d -exec rm -rv {} \;
+# weekly - keep for retentionWeekly
+find $storage/backup.weekly/ -maxdepth 1 -mtime +$retentionWeekly -type d -exec rm -rv {} \;
 
-# monthly - keep for 180 days
-find $storage/backup.monthly/ -maxdepth 1 -mtime +180 -type d -exec rm -rv {} \;
+# monthly - keep for retentionMonthly
+find $storage/backup.monthly/ -maxdepth 1 -mtime +$retentionMonthly -type d -exec rm -rv {} \;
