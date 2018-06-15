@@ -21,6 +21,18 @@ date_daily=`date +"%Y-%m-%d"`
 month_day=`date +"%d"`
 week_day=`date +"%u"`
 
+# check if source path exists
+if [[ ! -d $source && ! -r $source ]] ; then
+  echo "source path does not exist or is not readable; exiting"
+  echo "source path: $source"
+  exit 1
+fi
+
+# check if storage path exists
+if [[ ! -d $storage && -w $storage ]] ; then
+  mkdir $storage
+fi
+
 # check if storage folders exist and create if they do not 
 directories=("backup.daily" "backup.weekly" "backup.monthly")
 for i in "${directories[@]}"
