@@ -13,7 +13,7 @@ storage=./test/
 source=$storage/today
 
 # Destination file names
-date_daily=`date +"%d-%m-%Y"`
+date_daily=`date +"%Y-%m-%d"`
 #date_weekly=`date +"%V sav. %m-%Y"`
 #date_monthly=`date +"%m-%Y"`
 
