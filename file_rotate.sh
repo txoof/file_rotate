@@ -34,10 +34,12 @@ if [[ ! -d $storage && -w $storage ]] ; then
 fi
 
 # check if source path exists
-if [[ ! -d $source && ! -r $source ]] ; then
-  echo "source path does not exist or is not readable; exiting"
-  echo "source path: $source"
-  exit 1
+if [ ! -d $source && ! ] ; then
+  mkdir $source
+fi
+
+if [ ! -r $source ] ; then
+  echo "$source is unreadable"
 fi
 
 # check if storage folders exist and create if they do not 
